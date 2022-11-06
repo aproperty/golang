@@ -1,0 +1,4 @@
+
+`yum install golang`  
+
+`wget https://dl.google.com/go/go1.13.5.linux-amd64.tar.gz`  
