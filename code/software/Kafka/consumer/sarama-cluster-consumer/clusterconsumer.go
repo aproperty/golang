@@ -8,16 +8,13 @@ import (
 	"github.com/golang/glog"
 )
 
-var ordRespConsumer *cluster.Consumer
+var consumer *cluster.Consumer
 
 func KafkaInit(addrs []string, groupID string, topicId string, superReboot bool) error {
 
-	OrdRespTopic := fmt.Sprintf("order_resp_%s", topicId)
-
-	var err error
+	topic := fmt.Sprintf("order_resp_%s", topicId)
 
 	config := cluster.NewConfig()
-
 	config.Consumer.Return.Errors = true
 	config.Group.Return.Notifications = true
 	config.Consumer.Offsets.Initial = sarama.OffsetNewest
@@ -25,44 +22,35 @@ func KafkaInit(addrs []string, groupID string, topicId string, superReboot bool)
 		config.Consumer.Offsets.Initial = sarama.OffsetOldest
 	}
 
-	ordRespConsumer, err = cluster.NewConsumer(addrs, groupID, []string{OrdRespTopic}, config)
+	var err error
+	consumer, err = cluster.NewConsumer(addrs, groupID, []string{topic}, config)
 	if err != nil {
 		glog.Errorln(err)
 		return err
 	}
 
-	go chkConsumer(ordRespConsumer)
+	go checkkConsumer(consumer)
 	return nil
 }
 
-func chkConsumer(c *cluster.Consumer) {
+func checkkConsumer(c *cluster.Consumer) {
 	errors := c.Errors()
-	noti := c.Notifications()
+	notiChan := c.Notifications()
 	for {
 		select {
 		case err := <-errors:
 			if err != nil {
 				glog.Error("consumer error", err)
 			}
-		case <-noti:
+		case <-notiChan:
 		}
 	}
 }
 
 func Close() {
-	ordRespConsumer.Close()
+	consumer.Close()
 }
 
-func GetOrdRespChan() <-chan *sarama.ConsumerMessage {
-	return ordRespConsumer.Messages()
+func GetMessagesChan() <-chan *sarama.ConsumerMessage {
+	return consumer.Messages()
 }
-
-// func GetAaBb() {
-// 	aa := GetOrdRespChan()
-
-// 	ordRespConsumer.MarkOffset()
-// 	ordRespConsumer.MarkOffsets()
-// 	ordRespConsumer.MarkPartitionOffset()
-
-// 	ordRespConsumer.CommitOffsets()
-// }

@@ -1,20 +1,9 @@
-package kafkaconsumer
+package main
 
 import (
 	"container/list"
 	"time"
 )
-
-// MyCacheData ...
-var MyCacheData chan MyInfo
-
-// MyInfo ...
-type MyInfo struct {
-	MyID     int    `json:"myID"`
-	MyName   string `json:"myName"`
-	MyTime   string `json:"myTime"`
-	MyEnable bool   `json:"myEnable"`
-}
 
 // CacheDataStruct ...
 type CacheDataStruct struct {
@@ -31,40 +20,37 @@ func init() {
 	node.List = *list.New()
 	node.List.Init()
 	node.SendLen = 0
-
 	GCacheData = node
 }
 
 // SendCacheData ...
-func SendCacheData(to chan MyInfo) {
-
+func SendCacheData(to chan Info) {
 	GCacheData.SendLen = GCacheData.List.Len()
 	if GCacheData.SendLen == 0 {
 		return
 	}
-
 	for i := 0; i < GCacheData.SendLen; i++ {
 		iter := GCacheData.List.Front()
-		totalmsg := iter.Value.(*MyInfo)
+		totalmsg := iter.Value.(*Info)
 		to <- *totalmsg
 		GCacheData.List.Remove(iter)
 	}
-
 	GCacheData.SendLen = GCacheData.List.Len()
 }
 
 // GoCacheData ...
-func GoCacheData(to chan MyInfo, sec int64) {
+func GoCacheData(mainChannel chan Info, sec int64) {
 
 	t := time.NewTimer(time.Duration(sec) * time.Second)
 
 	for {
 
 		select {
-		case totalmsg := <-MyCacheData:
+		case totalmsg := <-CacheChannel:
 			GCacheData.List.PushBack(&totalmsg)
+
 		case <-t.C:
-			SendCacheData(to)
+			SendCacheData(mainChannel)
 			t.Reset(time.Duration(sec) * time.Second)
 		}
 

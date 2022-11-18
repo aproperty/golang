@@ -1,4 +1,4 @@
-package kafkaconsumer
+package main
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 )
 
 // MainChannel ...
-var MainChannel chan MyInfo
+var MainChannel chan Info
 
 func goAnalysis() {
 
@@ -19,14 +19,14 @@ func goAnalysis() {
 	}()
 
 	var num int
-
 	for {
-		var TotalMsg MyInfo
+		var msg Info
 		select {
 
-		case TotalMsg = <-MainChannel:
+		case msg = <-MainChannel:
 			num++
-			fmt.Printf("%v goAnalysis --------- %+v \n", num, TotalMsg)
+			fmt.Printf("%v goAnalysis --------- %+v \n", num, msg)
+
 		case <-timeout:
 			fmt.Println("-------")
 
