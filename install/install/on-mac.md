@@ -1,19 +1,16 @@
  
-`tar -C /usr/local -zxvf go$VERSION.$OS-$ARCH.tar.gz`    
-
-`sudo vi /etc/profile`   
-`source /etc/profile`   
+`tar -C /usr/local -zxvf go$VERSION.$OS-$ARCH.tar.gz`     
 
 
 
 `vi ~/.zshrc`   
 
 ```
-export MYTEMP=go1-12-17
+export MYTEMP=go1-20-1
 
 export GOROOT=/usr/local/$MYTEMP
 export GOPATH=${HOME}/${MYTEMP}-path
-export GO111MODULE=off
+export GO111MODULE=on
 export GOPROXY=https://goproxy.io,direct
 export GOPRIVATE=gitlab.com,gitee.com,gitea.com
 
