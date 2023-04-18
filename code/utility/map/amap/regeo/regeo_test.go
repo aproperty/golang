@@ -14,5 +14,4 @@ func TestClient(t *testing.T) {
 	t.Logf("%v", address)
 	t.Logf("%v", province)
 	t.Logf("%v", city)
-
 }
