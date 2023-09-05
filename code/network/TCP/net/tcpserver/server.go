@@ -45,7 +45,7 @@ func (s *Server) Start(factory IoHandlerFactory) error {
 
 func (s *Server) startTCP(errorChannel chan error) {
 
-	tcpAddr, err := net.ResolveTCPAddr("tcp4", "0.0.0.0:11987")
+	tcpAddr, err := net.ResolveTCPAddr("tcp4", "0.0.0.0:6652")
 	if nil != err {
 		fmt.Println("TCP address error.")
 		errorChannel <- err
