@@ -42,7 +42,7 @@ func (c *MyTCPConn) Start(handler IoHandler, conn net.Conn, maxSendQueue uint32)
 
 		var stopLoop bool
 		for !stopLoop {
-			fmt.Println("Read data begin. address:" + conn.RemoteAddr().String() + "\n")
+			// fmt.Println("Read data begin. address:" + conn.RemoteAddr().String() + "\n")
 
 			if err := c.conn.SetReadDeadline(time.Now().Add(time.Minute * (time.Duration(5)))); err != nil {
 				fmt.Println("set read timeout fail, addr:" + conn.RemoteAddr().String())
@@ -57,6 +57,7 @@ func (c *MyTCPConn) Start(handler IoHandler, conn net.Conn, maxSendQueue uint32)
 					fmt.Println("Read nothing.., addr:" + conn.RemoteAddr().String())
 					stopLoop = true
 				} else {
+					fmt.Println()
 					fmt.Println("Receive data len:" + strconv.Itoa(readBytes))
 					c.readedDataLen += readBytes
 
