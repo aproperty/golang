@@ -32,9 +32,9 @@ func (dH *DefaultIoHandler) OnReadFinished(myKey **string, conn net.Conn, data [
 	var cpdata = make([]byte, msgLen)
 	copy(cpdata, data[:msgLen])
 
-	fmt.Println()
+	// fmt.Println()
 	PrintByteArrayToHex(cpdata)
-	fmt.Println()
+	// fmt.Println()
 
 	if *myKey == nil {
 		temp := strconv.FormatInt(time.Now().Unix(), 10)
