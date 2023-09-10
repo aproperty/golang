@@ -1,14 +1,7 @@
 package fence
 
-func IsInCircleFence(circleRadius, centerLng, centerLat,
-	lng, lat float64) bool {
-	betweenMeter := EarthDistance(centerLat, centerLng, lat, lng)
-	return betweenMeter < circleRadius
-}
-
 // http://alienryderflex.com/polygon/
-func IsInPolygon(polyX []float64, polyY []float64,
-	x float64, y float64) bool {
+func IsInPolygon(polyX []float64, polyY []float64, x float64, y float64) bool {
 
 	var i, j int
 	i = 0
