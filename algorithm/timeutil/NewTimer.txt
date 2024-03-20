@@ -1,0 +1,11 @@
+
+/*
+	for {
+		now := time.Now()
+		next := now.Add(time.Second * 1)
+		t := time.NewTimer(next.Sub(now))
+		<-t.C
+
+		fmt.Println("timer")
+	}
+*/

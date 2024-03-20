@@ -1,0 +1,8 @@
+package timeutil
+
+const DATE = `2006-01-02`
+const TIME = `15:04:05`
+
+const DATE_TIME = `2006-01-02 15:04:05`
+const DATE_TIME_START_SECOND = `2006-01-02 15:04:00`
+const DATE_TIME_ZERO_HOUR = `2006-01-02 00:00:00`
